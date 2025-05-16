@@ -1,10 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    # include NixOS-WSL modules
-    <nixos-wsl/modules>  
-  ];
     networking = {
 	hostName = "nixos-wsl";
 	nameservers = [ "8.8.8.8" "8.8.4.4" ];
@@ -23,7 +19,7 @@
     };
 
     security.pki.certificates = [
-	(builtins.readFile "/home/derek/certs/ZscalerRootCertificate-2048-SHA256.crt")
+	(builtins.readFile ../certs/ZscalerRootCertificate-2048-SHA256.crt)
     ];
 
     environment.systemPackages = with pkgs; [
