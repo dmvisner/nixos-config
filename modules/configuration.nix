@@ -19,7 +19,7 @@
     };
 
     security.pki.certificates = [
-	(builtins.readFile ../certs/ZscalerRootCertificate-2048-SHA256.crt)
+	(builtins.readFile ./certs/ZscalerRootCertificate-2048-SHA256.crt)
     ];
 
     environment.systemPackages = with pkgs; [
