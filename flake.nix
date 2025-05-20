@@ -24,6 +24,8 @@
 
         ./modules/configuration.nix
 
+        ./modules/home.nix
+
         ({ pkgs, lib, ...}: {
           wsl = {
             enable = true;
