@@ -9,7 +9,7 @@
     
     ripgrep.enable = true;
 
-    nix-direnvv.enable = true;
+    nix-direnv.enable = true;
 
     starship = {
       enable = true;

@@ -24,7 +24,14 @@
 
         ./modules/configuration.nix
 
-        ./modules/home.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.derek = import ./modules/home.nix;
+          };
+        }      
 
         ({ pkgs, lib, ...}: {
           wsl = {
