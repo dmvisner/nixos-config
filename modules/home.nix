@@ -1,7 +1,7 @@
 { config, pkgs, lib, home-manager, ... }:
 {
   home = {
-    username = "nixos";
+    username = "derek";
     homeDirectory = "/home/derek";
   }; 
 
