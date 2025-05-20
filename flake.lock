@@ -73,11 +73,28 @@
         "type": "github"
       }
     },
+    "nvim-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733860881,
+        "narHash": "sha256-avkDYkXsA2P6C2wKrwpVBuvNmrCdIjlGsJNcwbWhZq0=",
+        "owner": "dmvisner",
+        "repo": "neovimrc",
+        "rev": "ac31be6cd34a94d4a6fb9eb546903beed60f71e5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dmvisner",
+        "repo": "neovimrc",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nixos-wsl": "nixos-wsl",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nvim-config": "nvim-config"
       }
     }
   },

@@ -1,7 +1,15 @@
-{ config, pkgs, lib, home-manager, ... }:
+{ config, pkgs, lib, inputs, ... }:
 {
   home = {
     username = "derek";
+    stateVersion = "25.05";
+    
+    file = {
+      ".config/nvim" = {
+        source = inputs.nvim-config;
+        recursive = true;
+      };
+    };
   }; 
 
   programs = {
@@ -9,7 +17,7 @@
     
     ripgrep.enable = true;
 
-    nix-direnv.enable = true;
+    direnv.nix-direnv.enable = true;
 
     starship = {
       enable = true;
@@ -26,8 +34,8 @@
     neovim = {
       enable = true;
       defaultEditor = true;
+      vimAlias = true;
+      viAlias = true;
     };
   };
-
-  
 }
