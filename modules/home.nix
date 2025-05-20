@@ -2,7 +2,6 @@
 {
   home = {
     username = "derek";
-    homeDirectory = "/home/derek";
   }; 
 
   programs = {
