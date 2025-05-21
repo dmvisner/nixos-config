@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }: 
 
-with lib:
+with lib;
 
 let
   cfg = config.slopNvim;
@@ -24,6 +24,15 @@ in {
 	undotree
 	which-key-nvim
       ];
+
+      extraPackages = with pkgs; [
+        lua5_1 
+        lua51Packages.luarocks
+      ];
+
+      defaultEditor = true;      
+      viAlias = true;    
+      vimAlias = true;    
     };
   };
 }
