@@ -16,6 +16,12 @@
 	  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="	
 	];
       };
+
+      gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 30d";
+      };
     };
 
     security.pki.certificates = [
@@ -28,6 +34,7 @@
 	wget
 	curl
 	htop
+	gcc
     ];
 
     time.timeZone = "America/New_York";

@@ -35,6 +35,8 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             users.derek = import ./modules/home.nix;
+
+            extraSpecialArgs = { inherit inputs; };
           };
         }      
 

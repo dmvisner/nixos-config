@@ -1,16 +1,26 @@
 { config, pkgs, lib, inputs, ... }:
 {
+  imports = [
+    ./neovim
+  ];
   home = {
     username = "derek";
     stateVersion = "25.05";
     
-    file = {
-      ".config/nvim" = {
-        source = inputs.nvim-config;
-        recursive = true;
-      };
-    };
+    #file = {
+      #".config/nvim" = {
+        #source = inputs.nvim-config;
+        #recursive = true;
+      #};
+    #};
+
+    packages = with pkgs; [
+      lua5_1
+      lua51Packages.luarocks
+    ];
   }; 
+
+  slopNvim.enable = true;
 
   programs = {
     home-manager.enable = true;
@@ -27,15 +37,28 @@
     bash = {
       enable = true;
       shellAliases = {
-        update = "sudo nixos-rebuild switch --flake .";
+        update = "sudo nixos-rebuild switch --flake /etc/nixos";
+        config = "sudo vim /etc/nixos";
       };
     }; 
 
-    neovim = {
+    git = {
       enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-      viAlias = true;
+      userName = "dvisner";
+      userEmail = "dvisner@netjets.com";
+
+      extraConfig = {
+        init.defaultBranch = "main";
+        push.autoSetupRemote = true;
+      };
+    };
+
+    ssh = {
+      enable = true;
+    };
+
+    lazygit = {
+      enable = true;
     };
   };
 }
