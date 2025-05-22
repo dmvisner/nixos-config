@@ -13,6 +13,7 @@ let
   lualineConfig = import ./configs/lualine.nix { inherit config lib pkgs; };
   treesitterConfig = import ./configs/treesitter.nix { inherit config lib pkgs; };
   surroundConfig = import ./configs/surround.nix { inherit config lib pkgs; };
+  undotreeConfig = import ./configs/undotree.nix { inherit config lib pkgs; };
 
 in {
   options.slopNvim = {
@@ -79,13 +80,15 @@ in {
         ++ (lists.optionals (cfg.enableTelescope) telescopeConfig.plugins)
         ++ (lists.optionals (cfg.lualine.enable) lualineConfig.plugins)
         ++ (lists.optionals (cfg.enableTreesitter) (treesitterConfig.plugins cfg.lsp.languages))
-        ++ (surround.plugins);
+        ++ (surroundConfig.plugins)
+        ++ (undotreeConfig.plugins);
 
       extraLuaConfig = ''
         ${themeConfig.luaConfig cfg.theme}
 	${remapConfig.luaConfig}
 	${setConfig.luaConfig}
 	${surroundConfig.luaConfig}
+	${undotreeConfig.luaConfig}
 	${strings.optionalString (cfg.lsp.enable) (lspConfig.luaConfig cfg.lsp.languages)}
 	${strings.optionalString (cfg.enableTelescope) (telescopeConfig.luaConfig)}
 	${strings.optionalString (cfg.lualine.enable) (lualineConfig.luaConfig cfg.lualine.theme)}
