@@ -9,6 +9,8 @@ let
   lspConfig = import ./configs/lsp.nix { inherit config lib pkgs; };
   telescopeConfig = import ./configs/telescope.nix { inherit config lib pkgs; };
   remapConfig = import ./configs/remap.nix { inherit config lib pkgs; };
+  setConfig = import ./configs/set.nix { inherit config lib pkgs; };
+  lualineConfig = import ./configs/lualine.nix { inherit config lib pkgs; };
 
 in {
   options.slopNvim = {
@@ -41,8 +43,21 @@ in {
 
     theme = mkOption {
       type = types.enum [ "gruvbox" "catppuccin" "tokyonight" ];
-      default = "catppuccin";
+      default = "tokyonight";
       description = "Color theme to use";
+    };
+
+    lualine = {
+      enable = mkOption {
+        type = types.bool;
+	default = true;
+	description = "Enable lualine";
+      };
+
+      theme = mkOption {
+        type = types.listOf (types.enum [ "palenight" ]);
+	default = [ "palenight" ];
+      };
     };
   };
 
@@ -53,12 +68,13 @@ in {
       plugins = with pkgs.vimPlugins; [
         plenary-nvim
 	nvim-web-devicons
-      ] ++ (optionals (cfg.theme == "gruvbox") [ gruvbox-nvim ])
-        ++ (optionals (cfg.theme == "catppuccin") [ catppuccin-nvim ])
-        ++ (optionals (cfg.theme == "tokyonight") [ tokyonight-nvim ])
+      ] ++ (lists.optionals (cfg.theme == "gruvbox") [ gruvbox-nvim ])
+        ++ (lists.optionals (cfg.theme == "catppuccin") [ catppuccin-nvim ])
+        ++ (lists.optionals (cfg.theme == "tokyonight") [ tokyonight-nvim ])
 
-        ++ (lspConfig.plugins)
-        ++ (telescopeConfig.plugins);
+        ++ (lists.optionals (cfg.lsp.enable) lspConfig.plugins)
+        ++ (lists.optionals (cfg.enableTelescope) telescopeConfig.plugins);
+        ++ (lists.optionals (cfg.lualine.enable) lualineConfig.plugins);
 
 
 #	telescope-nvim
@@ -74,9 +90,11 @@ in {
 
       extraLuaConfig = ''
         ${themeConfig.luaConfig cfg.theme}
-	${lspConfig.luaConfig cfg.lsp.languages}
-	${telescopeConfig.luaConfig}
 	${remapConfig.luaConfig}
+	${setConfig.luaConfig}
+	${strings.optionalString (cfg.lsp.enable) (lspConfig.luaConfig cfg.lsp.languages)}
+	${strings.optionalString (cfg.enableTelescope) (telescopeConfig.luaConfig)}
+	${strings.optionalString (cfg.lualine.enable) (lualineConfig.luaConfig cfg.lualine.theme)}
       ''; 
 
       extraPackages = with pkgs; [
