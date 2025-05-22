@@ -8,6 +8,7 @@ let
   themeConfig = import ./configs/theme.nix { inherit config lib pkgs; };
   lspConfig = import ./configs/lsp.nix { inherit config lib pkgs; };
   telescopeConfig = import ./configs/telescope.nix { inherit config lib pkgs; };
+  remapConfig = import ./configs/remap.nix { inherit config lib pkgs; };
 
 in {
   options.slopNvim = {
@@ -75,6 +76,7 @@ in {
         ${themeConfig.luaConfig cfg.theme}
 	${lspConfig.luaConfig cfg.lsp.languages}
 	${telescopeConfig.luaConfig}
+	${remapConfig.luaConfig}
       ''; 
 
       extraPackages = with pkgs; [
