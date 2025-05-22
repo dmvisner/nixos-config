@@ -55,7 +55,7 @@ in {
       };
 
       theme = mkOption {
-        type = types.listOf (types.enum [ "palenight" ]);
+        type = types.enum [ "palenight" ];
 	default = [ "palenight" ];
       };
     };
@@ -73,7 +73,7 @@ in {
         ++ (lists.optionals (cfg.theme == "tokyonight") [ tokyonight-nvim ])
 
         ++ (lists.optionals (cfg.lsp.enable) lspConfig.plugins)
-        ++ (lists.optionals (cfg.enableTelescope) telescopeConfig.plugins);
+        ++ (lists.optionals (cfg.enableTelescope) telescopeConfig.plugins)
         ++ (lists.optionals (cfg.lualine.enable) lualineConfig.plugins);
 
 

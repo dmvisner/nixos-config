@@ -24,6 +24,13 @@
       enable = true;
       languages = [ "typescript" "nix" "lua" ];
     };
+
+    lualine = {
+      enable = true;
+      theme = "palenight";
+    };
+
+    enableTelescope = true;
   };
 
   programs = {
