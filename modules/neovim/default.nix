@@ -5,7 +5,9 @@ with lib;
 let
   cfg = config.slopNvim;
 
-  themeConfig = import ./config/theme.nix { inherit config lib pkgs; };
+  themeConfig = import ./configs/theme.nix { inherit config lib pkgs; };
+  lspConfig = import ./configs/lsp.nix { inherit config lib pkgs; };
+
 in {
   options.slopNvim = {
     enable = mkEnableOption "Neovim config";     
@@ -51,7 +53,9 @@ in {
 	nvim-web-devicons
       ] ++ (lib.optionals (cfg.theme == "gruvbox") [ gruvbox-nvim ])
         ++ (lib.optionals (cfg.theme == "catppuccin") [ catppuccin-nvim ])
-        ++ (lib.optionals (cfg.theme == "tokyonight") [ tokyonight-nvim ]);
+        ++ (lib.optionals (cfg.theme == "tokyonight") [ tokyonight-nvim ])
+
+        ++ (lspConfig.plugins cfg.lsp.languages);
 
 
 #	telescope-nvim
