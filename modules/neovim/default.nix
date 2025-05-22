@@ -7,6 +7,7 @@ let
 
   themeConfig = import ./configs/theme.nix { inherit config lib pkgs; };
   lspConfig = import ./configs/lsp.nix { inherit config lib pkgs; };
+  telescopeConfig = import ./configs/telescope.nix { inherit config lib pkgs; };
 
 in {
   options.slopNvim = {
@@ -51,11 +52,12 @@ in {
       plugins = with pkgs.vimPlugins; [
         plenary-nvim
 	nvim-web-devicons
-      ] ++ (lib.optionals (cfg.theme == "gruvbox") [ gruvbox-nvim ])
-        ++ (lib.optionals (cfg.theme == "catppuccin") [ catppuccin-nvim ])
-        ++ (lib.optionals (cfg.theme == "tokyonight") [ tokyonight-nvim ])
+      ] ++ (optionals (cfg.theme == "gruvbox") [ gruvbox-nvim ])
+        ++ (optionals (cfg.theme == "catppuccin") [ catppuccin-nvim ])
+        ++ (optionals (cfg.theme == "tokyonight") [ tokyonight-nvim ])
 
-        ++ (lspConfig.plugins cfg.lsp.languages);
+        ++ (lspConfig.plugins)
+        ++ (telescopeConfig.plugins);
 
 
 #	telescope-nvim
@@ -71,12 +73,14 @@ in {
 
       extraLuaConfig = ''
         ${themeConfig.luaConfig cfg.theme}
+	${lspConfig.luaConfig cfg.lsp.languages}
+	${telescopeConfig.luaConfig}
       ''; 
 
       extraPackages = with pkgs; [
         lua5_1 
         lua51Packages.luarocks
-      ];
+      ] ++ (lspConfig.packages cfg.lsp.languages);
 
       defaultEditor = true;      
       viAlias = true;    

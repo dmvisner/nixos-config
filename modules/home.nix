@@ -19,6 +19,11 @@
     enable = true;
 
     theme = "tokyonight";
+
+    lsp = {
+      enable = true;
+      languages = [ "typescript" "nix" "lua" ];
+    };
   };
 
   programs = {
