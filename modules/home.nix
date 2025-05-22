@@ -31,6 +31,8 @@
     };
 
     enableTelescope = true;
+
+    enableTreesitter = true;
   };
 
   programs = {

@@ -11,6 +11,8 @@ let
   remapConfig = import ./configs/remap.nix { inherit config lib pkgs; };
   setConfig = import ./configs/set.nix { inherit config lib pkgs; };
   lualineConfig = import ./configs/lualine.nix { inherit config lib pkgs; };
+  treesitterConfig = import ./configs/treesitter.nix { inherit config lib pkgs; };
+  surroundConfig = import ./configs/surround.nix { inherit config lib pkgs; };
 
 in {
   options.slopNvim = {
@@ -68,33 +70,26 @@ in {
       plugins = with pkgs.vimPlugins; [
         plenary-nvim
 	nvim-web-devicons
+	which-key-nvim
       ] ++ (lists.optionals (cfg.theme == "gruvbox") [ gruvbox-nvim ])
         ++ (lists.optionals (cfg.theme == "catppuccin") [ catppuccin-nvim ])
         ++ (lists.optionals (cfg.theme == "tokyonight") [ tokyonight-nvim ])
 
         ++ (lists.optionals (cfg.lsp.enable) lspConfig.plugins)
         ++ (lists.optionals (cfg.enableTelescope) telescopeConfig.plugins)
-        ++ (lists.optionals (cfg.lualine.enable) lualineConfig.plugins);
-
-
-#	telescope-nvim
-	#surround-nvim
-        #nvim-treesitter
-	#lualine-nvim
-	#lazygit-nvim
-	#undotree
-	#which-key-nvim
-	#rainbow-delimiters-nvim
-	#nvim-lspconfig
-      #];
+        ++ (lists.optionals (cfg.lualine.enable) lualineConfig.plugins)
+        ++ (lists.optionals (cfg.enableTreesitter) (treesitterConfig.plugins cfg.lsp.languages))
+        ++ (surround.plugins);
 
       extraLuaConfig = ''
         ${themeConfig.luaConfig cfg.theme}
 	${remapConfig.luaConfig}
 	${setConfig.luaConfig}
+	${surroundConfig.luaConfig}
 	${strings.optionalString (cfg.lsp.enable) (lspConfig.luaConfig cfg.lsp.languages)}
 	${strings.optionalString (cfg.enableTelescope) (telescopeConfig.luaConfig)}
 	${strings.optionalString (cfg.lualine.enable) (lualineConfig.luaConfig cfg.lualine.theme)}
+	${strings.optionalString (cfg.enableTreesitter) (treesitterConfig.luaConfig cfg.lsp.languages)}
       ''; 
 
       extraPackages = with pkgs; [
