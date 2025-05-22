@@ -3,24 +3,30 @@
   imports = [
     ./neovim
   ];
+
   home = {
     username = "derek";
     stateVersion = "25.05";
-    
-    #file = {
-      #".config/nvim" = {
-        #source = inputs.nvim-config;
-        #recursive = true;
-      #};
-    #};
+
+    packages = with pkgs; [
+      nodejs_24
+      typescript
+      typescript-language-server
+    ];
   }; 
 
-  slopNvim.enable = true;
+  slopNvim = {
+    enable = true;
+
+    theme = "tokyonight";
+  };
 
   programs = {
     home-manager.enable = true;
     
     ripgrep.enable = true;
+
+    fd.enable = true;
 
     direnv.nix-direnv.enable = true;
 
@@ -49,10 +55,6 @@
     };
 
     ssh = {
-      enable = true;
-    };
-
-    lazygit = {
       enable = true;
     };
   };
