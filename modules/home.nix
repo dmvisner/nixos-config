@@ -49,12 +49,31 @@
       mouse = true;
       tmuxinator.enable = true;
 
+      extraConfig = ''
+        bind -n M-c new-window
+        bind -n M-n next-window
+        bind -n M-p previous-window
+        bind -n M-w choose-window
+        bind -n M-0 select-window -t 0
+        bind -n M-a select-window -t 0
+        bind -n M-1 select-window -t 1
+        bind -n M-s select-window -t 1
+        bind -n M-2 select-window -t 2
+        bind -n M-d select-window -t 2
+        bind -n M-3 select-window -t 3
+        bind -n M-f select-window -t 3
+     	bind -n M-k kill-server
+      '';
+
       plugins = with pkgs.tmuxPlugins; [
         {
 	  plugin = dracula;
 	  extraConfig = ''
-	    set -g @dracula-plugins "cpu-usage ram-usage"
-	    set -g @dracula-refresh-rate 10
+	    set -g @dracula-plugins "cpu-usage ram-usage time"
+	    set -g @dracula-show-left-icon "#h"
+	    set -g @dracula-military-time true
+	    set -g @dracula-show-timezone false
+	    set -g @dracula-refresh-rate 5
 	  '';
 	}
       ];
@@ -71,7 +90,7 @@
       enable = true;
       shellAliases = {
         update = "sudo nixos-rebuild switch --flake /etc/nixos";
-        config = "sudo vim /etc/nixos";
+        config = "vim /etc/nixos";
       };
     }; 
 
@@ -87,6 +106,10 @@
     };
 
     ssh = {
+      enable = true;
+    };
+
+    lazygit = {
       enable = true;
     };
   };

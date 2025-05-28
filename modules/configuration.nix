@@ -52,9 +52,16 @@
 	};	
     };
 
-    systemd.tmpfiles.rules = [
-	"d /etc/nixos 0775 root nixconfig - -"
-    ];
+    # Add a systemd service to change ownership of /etc/nixos to derek
+    systemd.services.fix-nixos-permissions = {
+      description = "Set ownership of /etc/nixos to derek";
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.coreutils}/bin/chown -R derek /etc/nixos";
+        RemainAfterExit = true;
+      };
+    };
 
     system.stateVersion = "24.11"; # Did you read the comment?
 }
