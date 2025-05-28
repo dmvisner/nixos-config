@@ -34,6 +34,8 @@
     enableTelescope = true;
 
     enableTreesitter = true;
+
+    enableOil = true;
   };
 
   programs = {
