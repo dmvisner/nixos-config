@@ -12,6 +12,7 @@
       nodejs_24
       typescript
       typescript-language-server
+      amazon-q-cli
     ];
   }; 
 
@@ -41,6 +42,22 @@
     ripgrep.enable = true;
 
     fd.enable = true;
+
+    tmux = {
+      enable = true;
+      keyMode = "vi";
+      tmuxinator.enable = true;
+
+      plugins = with pkgs.tmuxPlugins; [
+        {
+	  plugin = dracula;
+	  extraConfig = ''
+	    set -g @dracula-plugins "cpu-usage ram-usage"
+	    set -g @dracula-refresh-rate 10
+	  '';
+	}
+      ];
+    };
 
     direnv.nix-direnv.enable = true;
 
