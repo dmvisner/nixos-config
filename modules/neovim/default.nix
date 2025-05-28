@@ -14,6 +14,7 @@ let
   treesitterConfig = import ./configs/treesitter.nix { inherit config lib pkgs; };
   surroundConfig = import ./configs/surround.nix { inherit config lib pkgs; };
   undotreeConfig = import ./configs/undotree.nix { inherit config lib pkgs; };
+  lazygitConfig = import ./configs/lazygit.nix { inherit config lib pkgs; };
 
 in {
   options.slopNvim = {
@@ -81,14 +82,16 @@ in {
         ++ (lists.optionals (cfg.lualine.enable) lualineConfig.plugins)
         ++ (lists.optionals (cfg.enableTreesitter) (treesitterConfig.plugins cfg.lsp.languages))
         ++ (surroundConfig.plugins)
-        ++ (undotreeConfig.plugins);
+        ++ (undotreeConfig.plugins)
+        ++ (lazygitConfig.plugins);
 
       extraLuaConfig = ''
         ${themeConfig.luaConfig cfg.theme}
-	${remapConfig.luaConfig}
 	${setConfig.luaConfig}
+	${remapConfig.luaConfig}
 	${surroundConfig.luaConfig}
 	${undotreeConfig.luaConfig}
+	${lazygitConfig.luaConfig}
 	${strings.optionalString (cfg.lsp.enable) (lspConfig.luaConfig cfg.lsp.languages)}
 	${strings.optionalString (cfg.enableTelescope) (telescopeConfig.luaConfig)}
 	${strings.optionalString (cfg.lualine.enable) (lualineConfig.luaConfig cfg.lualine.theme)}

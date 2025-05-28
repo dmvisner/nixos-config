@@ -1,7 +1,8 @@
 { config, lib, pkgs, ... }:
 {
   luaConfig = ''
-  vim.keymap.set("i", "jj", "<Esc>")
+
+  vim.keymap.set("n", "<leader>fv", ":Ex<CR>")
   vim.keymap.set("n", "<leader>bn", ":bnext<CR>")
   vim.keymap.set("n", "<leader>bp", ":bprev<CR>")
   vim.keymap.set("n", "<leader>bd", ":bd<CR>")

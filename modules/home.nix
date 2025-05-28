@@ -46,6 +46,7 @@
     tmux = {
       enable = true;
       keyMode = "vi";
+      mouse = true;
       tmuxinator.enable = true;
 
       plugins = with pkgs.tmuxPlugins; [
