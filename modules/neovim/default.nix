@@ -15,6 +15,7 @@ let
   surroundConfig = import ./configs/surround.nix { inherit config lib pkgs; };
   undotreeConfig = import ./configs/undotree.nix { inherit config lib pkgs; };
   lazygitConfig = import ./configs/lazygit.nix { inherit config lib pkgs; };
+  oilConfig = import ./configs/oil.nix { inherit config lib pkgs; };
 
 in {
   options.slopNvim = {
@@ -63,6 +64,12 @@ in {
 	default = [ "palenight" ];
       };
     };
+
+    enableOil = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable oil file explorer";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -81,6 +88,7 @@ in {
         ++ (lists.optionals (cfg.enableTelescope) telescopeConfig.plugins)
         ++ (lists.optionals (cfg.lualine.enable) lualineConfig.plugins)
         ++ (lists.optionals (cfg.enableTreesitter) (treesitterConfig.plugins cfg.lsp.languages))
+        ++ (lists.optionals (cfg.enableOil) (oilConfig.plugins))
         ++ (surroundConfig.plugins)
         ++ (undotreeConfig.plugins)
         ++ (lazygitConfig.plugins);
@@ -96,6 +104,7 @@ in {
 	${strings.optionalString (cfg.enableTelescope) (telescopeConfig.luaConfig)}
 	${strings.optionalString (cfg.lualine.enable) (lualineConfig.luaConfig cfg.lualine.theme)}
 	${strings.optionalString (cfg.enableTreesitter) (treesitterConfig.luaConfig cfg.lsp.languages)}
+	${strings.optionalString (cfg.enableOil) (oilConfig.luaConfig)}
       ''; 
 
       extraPackages = with pkgs; [
